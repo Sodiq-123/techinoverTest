@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+npm run lint
 npm run format
+# stage all previously staged changes  
+git add $(git diff --name-only --cached)
