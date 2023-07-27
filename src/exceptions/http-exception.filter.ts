@@ -3,10 +3,10 @@ import { Prisma } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import logger from '../utils/logger';
 
-class CustomHttpException extends Error {
+export class CustomHttpException extends Error {
   public status: number;
 
-  constructor(status, message) {
+  constructor(status: number, message: string) {
     super(message);
     this.name = this.constructor.name;
     this.status = status;
@@ -34,8 +34,7 @@ export class AllExceptionsFilter {
       if (exception.code === 'P2002') {
         const message = 'Unique constraint failed on the fields';
         errorFormat.message = message;
-        // @ts-ignore
-        const fields = exception.meta.target.map((t: any) => t);
+        const fields = (exception.meta.target as any[]).map((t: any) => t);
         for (const field of fields) {
           errors.push({
             [field]: `${field} is already in use`,

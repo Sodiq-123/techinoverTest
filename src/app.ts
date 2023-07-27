@@ -2,8 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import * as express from 'express';
 import * as cors from 'cors';
 import config from './config';
-import { AllExceptionsFilter } from './exceptions/http-exception.filter';
-import routes from './modules/index';
+import {
+  AllExceptionsFilter,
+  CustomHttpException,
+} from './exceptions/http-exception.filter';
+import createRoutes from './modules/index';
 
 export const createApp = (): express.Application => {
   const app: express.Application = express();
@@ -11,11 +14,7 @@ export const createApp = (): express.Application => {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use((err, req, res, next) => {
-    const exceptionFilter = new AllExceptionsFilter();
-    exceptionFilter.catch(err, req, res, next);
-  });
-  app.use(config.api.prefix, routes());
+  app.use(config.api.prefix, createRoutes());
 
   app.get('/api', (req: Request, res: Response) => {
     res.status(200).json({
@@ -25,10 +24,23 @@ export const createApp = (): express.Application => {
     });
   });
 
-  const exceptionFilter = new AllExceptionsFilter();
+  // handle 404 errors
+  app.use('*', (_, res: Response) => {
+    const error = new CustomHttpException(404, 'Resource not found');
+    return res.status(error.status).json({
+      status: 'error',
+      message: error.message,
+    });
+  });
+
+  // handle 500 errors
   app.use((err, req: Request, res: Response, next: NextFunction) => {
+    const exceptionFilter = new AllExceptionsFilter();
     exceptionFilter.catch(err, req, res, next);
-    next();
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    });
   });
 
   return app;
