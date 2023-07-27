@@ -4,7 +4,7 @@
   "description": "Drones API",
   "main": "index.js",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/index.seeder.ts"
   },
   "scripts": {
     "start": "npm run build && node dist/index.js",
@@ -18,7 +18,8 @@
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "prepare": "husky install",
-    "prisma:format": "prisma format"
+    "prisma:format": "prisma format",
+    "prisma:seed": "prisma db seed"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +38,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",

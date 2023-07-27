@@ -17,7 +17,7 @@ enum DroneModel {
   HEAVYWEIGHT
 }
 
-enum  DroneState {
+enum DroneState {
   IDLE
   LOADING
   LOADED
@@ -27,17 +27,27 @@ enum  DroneState {
 }
 
 model Drone {
-  id              String     @id @default(uuid())
-  serialNo        String     @unique
-  model           DroneModel
-  weightLimit     Decimal    @db.Decimal(10, 2) //(500kg max);
-  batteryCapacity Decimal    @db.Decimal(10, 2)
+  id               String       @id @default(uuid())
+  serialNo         String       @unique
+  model            DroneModel
+  weightLimit      Decimal      @db.Decimal(10, 2) //(500kg max);
+  remainingWeight  Decimal      @db.Decimal(10, 2)
+  batteryCapacity  Int
+  remainingBattery Int
+  state            DroneState   @default(IDLE)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  medications      Medication[]
 }
 
 model Medication {
   id        String   @id @default(uuid())
+  droneId   String
   name      String   @unique //(allowed only letters, numbers, ‘-‘, ‘_’);
   weight    Decimal  @db.Decimal(10, 2)
   code      String   @unique //(allowed only upper case letters, underscore and numbers);
   image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Drone     Drone    @relation(fields: [droneId], references: [id])
 }
