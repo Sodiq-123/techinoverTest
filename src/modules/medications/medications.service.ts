@@ -1,39 +1,59 @@
 import { PrismaClient } from '@prisma/client';
 import { CreateMedicationDto } from '../../dto/medication.dto';
-import { CustomHttpException } from '../../exceptions/http-exception.filter';
 import { Helper } from '../../utils/helpers';
 
 const prisma = new PrismaClient();
 
 export class MedicationService {
   public async createMedication(createMedicationDto: CreateMedicationDto) {
-    const { name, weight, image, droneId } = createMedicationDto;
-    const code = Helper.generateRandomCode(8);
-    const medication = await prisma.medication.create({
-      data: {
-        droneId,
-        name,
-        weight,
-        code,
-        image,
-      },
-    });
+    try {
+      const { name, weight, image, droneId } = createMedicationDto;
+      const code = Helper.generateRandomCode(8);
+      const medication = await prisma.medication.create({
+        data: {
+          droneId,
+          name,
+          weight,
+          code,
+          image,
+        },
+      });
 
-    return medication;
+      return {
+        data: medication,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        error: error.message,
+      };
+    }
   }
 
   public async getMedicationByName(name: string) {
-    const medication = await prisma.medication.findUnique({
-      where: {
-        name,
-      },
-    });
+    try {
+      const medication = await prisma.medication.findUnique({
+        where: {
+          name,
+        },
+      });
 
-    if (!medication) {
-      throw new CustomHttpException(404, 'Medication not found');
+      if (!medication) {
+        return {
+          status: 404,
+          error: 'Medication not found',
+        };
+      }
+
+      return {
+        data: medication,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        error: error.message,
+      };
     }
-
-    return medication;
   }
 }
 

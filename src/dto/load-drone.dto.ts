@@ -4,6 +4,7 @@ import {
   IsPositive,
   IsString,
   IsUUID,
+  IsUrl,
   Matches,
 } from 'class-validator';
 import { BaseDto } from './base.dto';
@@ -31,12 +32,12 @@ export class LoadDroneWithMedicationDto
   })
   name: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   @IsPositive()
   weight: number;
 
-  @IsNumber()
+  @IsUrl()
   @IsNotEmpty()
   image: string;
 
