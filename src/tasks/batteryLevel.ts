@@ -11,16 +11,16 @@ export async function checkBatteryLevels() {
 
     // Log battery levels for each drone
     drones.forEach((drone) => {
-      logger.info(`Drone serial No: ${drone.serialNo}`, '', 'batteryLevel.log');
+      logger.info(`Drone serial No: ${drone.serialNo}`, '', 'batteryLevel');
       logger.info(
         `Battery Level: ${drone.remainingBattery}%`,
         '',
-        'batteryLevel.log',
+        'batteryLevel',
       );
       logger.info(
         '-------------------------',
         '-------------------------',
-        'batteryLevel.log',
+        'batteryLevel',
       );
     });
   } catch (error) {

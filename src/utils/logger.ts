@@ -52,28 +52,53 @@ class Logger {
     const consoleMessage = `${date.toString()} - ${options.type} - ${message}`;
     console.log(`${color}${consoleMessage}\x1b[0m`);
     if (filename) {
-      appendFileSync(filename, consoleMessage, { flag: 'a+' });
+      try {
+        mkdirSync('./logs');
+      } catch (e) {
+        // do nothing
+      }
+      appendFileSync(`./logs/${filename}`, consoleMessage, { flag: 'a+' });
     }
   }
 
   info(message: string, type: string, filename?: string) {
-    this.logToConsole(message, { color: LogLevel.INFO, type }, filename);
-    this.logToFile(message, { color: LogLevel.INFO, type }, filename);
+    this.logToConsole(
+      message,
+      { color: LogLevel.INFO, type },
+      `${filename}.log`,
+    );
+    this.logToFile(message, { color: LogLevel.INFO, type }, `${filename}.log`);
   }
 
   error(message: string, type: string, filename?: string) {
-    this.logToConsole(message, { color: LogLevel.ERROR, type }, filename);
-    this.logToFile(message, { color: LogLevel.ERROR, type }, filename);
+    this.logToConsole(
+      message,
+      { color: LogLevel.ERROR, type },
+      `${filename}.log`,
+    );
+    this.logToFile(message, { color: LogLevel.ERROR, type }, `${filename}.log`);
   }
 
   warn(message: string, type: string, filename?: string) {
-    this.logToConsole(message, { color: LogLevel.WARN, type }, filename);
-    this.logToFile(message, { color: LogLevel.WARN, type }, filename);
+    this.logToConsole(
+      message,
+      { color: LogLevel.WARN, type },
+      `${filename}.log`,
+    );
+    this.logToFile(message, { color: LogLevel.WARN, type }, `${filename}.log`);
   }
 
   success(message: string, type: string, filename?: string) {
-    this.logToConsole(message, { color: LogLevel.SUCCESS, type }, filename);
-    this.logToFile(message, { color: LogLevel.SUCCESS, type }, filename);
+    this.logToConsole(
+      message,
+      { color: LogLevel.SUCCESS, type },
+      `${filename}.log`,
+    );
+    this.logToFile(
+      message,
+      { color: LogLevel.SUCCESS, type },
+      `${filename}.log`,
+    );
   }
 }
 

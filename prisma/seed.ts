@@ -91,12 +91,12 @@ export default class Seeder {
   }
 
   public async seed(number = 5) {
-    logger.info('Seeding started', 'Seeder', 'seed.log');
+    logger.info('Seeding started', 'Seeder', 'seed');
     let errorCount = 0;
     for (let i = 0; i < number; i++) {
       try {
         await this.seedOne();
-        logger.info(`Seeding ${i + 1} completed`, 'Seeder', 'seed.log');
+        logger.info(`Seeding ${i + 1} completed`, 'Seeder', 'seed');
       } catch (error) {
         logger.error(error, 'Seeder');
         errorCount++;
@@ -105,7 +105,7 @@ export default class Seeder {
     logger.info(
       `Seeding completed with ${errorCount} errors`,
       'Seeder',
-      'seed.log',
+      'seed',
     );
   }
 }
