@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run build && node dist/index.js",
     "start:dev": "nodemon",
-    "start:prod": "npx prisma migrate deploy && npx prisma generate && node dist/index",
+    "start:prod": "npx prisma migrate deploy && npx prisma generate &&  npm run build && node dist/index",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "test": "jest",
     "test:watch": "jest --watch",

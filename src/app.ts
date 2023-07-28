@@ -1,11 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import * as express from 'express';
 import * as cors from 'cors';
 import config from './config';
-import {
-  AllExceptionsFilter,
-  CustomHttpException,
-} from './exceptions/http-exception.filter';
 import createRoutes from './modules/index';
 
 export const createApp = (): express.Application => {
@@ -26,20 +22,9 @@ export const createApp = (): express.Application => {
 
   // handle 404 errors
   app.use('*', (_, res: Response) => {
-    const error = new CustomHttpException(404, 'Resource not found');
-    return res.status(error.status).json({
+    return res.status(404).json({
       status: 'error',
-      message: error.message,
-    });
-  });
-
-  // handle 500 errors
-  app.use((err, req: Request, res: Response, next: NextFunction) => {
-    const exceptionFilter = new AllExceptionsFilter();
-    exceptionFilter.catch(err, req, res, next);
-    return res.status(500).json({
-      status: 'error',
-      message: 'Internal server error',
+      message: 'Resource not found',
     });
   });
 

@@ -108,7 +108,7 @@ dronesRouter.get(
 );
 
 dronesRouter.get(
-  '/available-drones',
+  '/available',
   async (req: express.Request, res: express.Response) => {
     const availableDrones = await dronesService.availableDronesForLoading();
     if (availableDrones.error) {
