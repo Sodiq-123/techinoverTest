@@ -16,6 +16,43 @@ export class DronesService {
   public async registerDrone(registerDroneDto: RegisterDroneDto) {
     const { model, weightLimit, batteryCapacity } = registerDroneDto;
     const serialNo = Helper.generateRandomString(16);
+    switch (model) {
+      case 'LIGHTWEIGHT':
+        if (Number(weightLimit) < 100 || Number(weightLimit) > 200) {
+          throw new CustomHttpException(
+            400,
+            'Weight limit for LIGHTWEIGHT drone must be between 100 and 200',
+          );
+        }
+        break;
+      case 'MIDDLEWEIGHT':
+        if (Number(weightLimit) < 200 || Number(weightLimit) > 300) {
+          throw new CustomHttpException(
+            400,
+            'Weight limit for MIDDLEWEIGHT drone must be between 200 and 300',
+          );
+        }
+        break;
+      case 'CRUISERWEIGHT':
+        if (Number(weightLimit) < 300 || Number(weightLimit) > 400) {
+          throw new CustomHttpException(
+            400,
+            'Weight limit for CRUISERWEIGHT drone must be between 300 and 400',
+          );
+        }
+        break;
+      case 'HEAVYWEIGHT':
+        if (Number(weightLimit) < 400 || Number(weightLimit) > 500) {
+          throw new CustomHttpException(
+            400,
+            'Weight limit for HEAVYWEIGHT drone must be between 400 and 500',
+          );
+        }
+        break;
+      default:
+        throw new CustomHttpException(400, 'Invalid drone model');
+    }
+
     const drone = await prisma.drone.create({
       data: {
         serialNo,

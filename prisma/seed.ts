@@ -37,11 +37,19 @@ export default class Seeder {
   };
 
   generateDroneData() {
-    const weightLimit = faker.number.float({ min: 400, max: 500 });
+    const model = this.generateRandomModel();
+    const weightLimit =
+      model === 'LIGHTWEIGHT'
+        ? faker.number.float({ min: 100, max: 200 })
+        : model === 'MIDDLEWEIGHT'
+        ? faker.number.float({ min: 200, max: 300 })
+        : model === 'CRUISERWEIGHT'
+        ? faker.number.float({ min: 300, max: 400 })
+        : faker.number.float({ min: 400, max: 500 });
     const batteryCapacity = 100;
     return {
       serialNo: faker.string.alphanumeric(16),
-      model: this.generateRandomModel(),
+      model,
       weightLimit,
       remainingWeight: weightLimit,
       batteryCapacity,
