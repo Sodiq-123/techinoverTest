@@ -81,7 +81,7 @@ export default class Seeder {
         remainingWeight:
           Number(drone.weightLimit) -
           medications.reduce((acc, curr) => acc + Number(curr.weight), 0),
-        remainingBattery: Number(drone.batteryCapacity) - 75,
+        remainingBattery: Number(drone.batteryCapacity) - 25,
         state: 'LOADED',
         medications: {
           connect: medications.map((medication) => ({ id: medication.id })),
