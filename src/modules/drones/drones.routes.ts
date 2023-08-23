@@ -6,7 +6,7 @@ import {
   LoadDroneWithMedicationDto,
   LoadDroneWithMedicationReq,
 } from '../../dto/load-drone.dto';
-import { DroneStateDto } from 'src/dto/dronestate.dto';
+import { DroneStateDto } from '../../dto/dronestate.dto';
 import logger from '../../utils/logger';
 
 const dronesRouter = express.Router();
