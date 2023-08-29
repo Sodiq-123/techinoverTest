@@ -16,30 +16,30 @@ medicationRouter.post(
     const createMedicationDto = new CreateMedicationDto(req.body);
     const validate = await validatePayload(createMedicationDto);
     if (validate.status === 'error') {
-      logger.error(validate.errors.toString(), 'Medication Router');
-      return res.status(400).json({
+      res.status(400).json({
         status: 'error',
         message: 'Invalid payload',
         data: validate.errors,
       });
+      logger.error(validate.errors.toString(), 'Medication Router');
     }
 
     const registerDrone = await MedicationService.createMedication(
       createMedicationDto,
     );
     if (registerDrone.error) {
-      logger.error(registerDrone.error, 'Medication Router');
-      return res.status(registerDrone.status).json({
+      res.status(registerDrone.status).json({
         status: 'error',
         message: registerDrone.error,
       });
+      logger.error(registerDrone.error, 'Medication Router');
     }
-    logger.info('Drone registered successfully', 'Medication Router');
-    return res.status(201).json({
+    res.status(201).json({
       status: 'success',
       message: 'Drone registered successfully',
       data: registerDrone,
     });
+    logger.info('Drone registered successfully', 'Medication Router');
   },
 );
 

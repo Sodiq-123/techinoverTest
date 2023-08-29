@@ -18,28 +18,28 @@ dronesRouter.post(
     const registerDroneDto = new RegisterDroneDto(req.body);
     const validate = await validatePayload(registerDroneDto);
     if (validate.status === 'error') {
-      logger.error(validate.errors.toString(), 'Drone Router');
-      return res.status(400).json({
+      res.status(400).json({
         status: 'error',
         message: 'Invalid payload',
         data: validate.errors,
       });
+      logger.error(validate.errors.toString(), 'Drone Router');
     }
 
     const registerDrone = await dronesService.registerDrone(registerDroneDto);
     if (registerDrone.error) {
-      logger.error(registerDrone.error, 'Drone Router');
-      return res.status(registerDrone.status).json({
+      res.status(registerDrone.status).json({
         status: 'error',
         message: registerDrone.error,
       });
+      logger.error(registerDrone.error, 'Drone Router');
     }
-    logger.info('Drone registered successfully', 'Drone Router');
-    return res.status(201).json({
+    res.status(201).json({
       status: 'success',
       message: 'Drone registered successfully',
       data: registerDrone,
     });
+    logger.info('Drone registered successfully', 'Drone Router');
   },
 );
 
@@ -50,18 +50,18 @@ dronesRouter.get(
     const droneId = req.params.droneId;
     const drone = await dronesService.getDroneById(droneId);
     if (drone.error || !drone.data) {
-      logger.error(drone.error, 'Drone Router');
-      return res.status(drone.status).json({
+      res.status(drone.status).json({
         status: 'error',
         message: drone.error,
       });
+      logger.error(drone.error, 'Drone Router');
     }
-    logger.info('Drone fetched successfully', 'Drone Router');
-    return res.status(200).json({
+    res.status(200).json({
       status: 'success',
       message: 'Drone fetched successfully',
       data: drone,
     });
+    logger.info('Drone fetched successfully', 'Drone Router');
   },
 );
 
@@ -73,30 +73,30 @@ dronesRouter.post(
     const validate = await validatePayload(loadDroneWithMedicationDto);
 
     if (validate.status === 'error') {
-      logger.error(validate.errors.toString(), 'Drone Router');
-      return res.status(400).json({
+      res.status(400).json({
         status: 'error',
         message: 'Invalid payload',
         data: validate.errors,
       });
+      logger.error(validate.errors.toString(), 'Drone Router');
     }
 
     const loadDroneWithMedication = await dronesService.loadDroneWithMedication(
       loadDroneWithMedicationDto,
     );
     if (loadDroneWithMedication.error) {
-      logger.error(loadDroneWithMedication.error, 'Drone Router');
-      return res.status(loadDroneWithMedication.status).json({
+      res.status(loadDroneWithMedication.status).json({
         status: 'error',
         message: loadDroneWithMedication.error,
       });
+      logger.error(loadDroneWithMedication.error, 'Drone Router');
     }
-    logger.info('Drone loaded successfully', 'Drone Router');
-    return res.status(201).json({
+    res.status(201).json({
       status: 'success',
       message: 'Drone loaded successfully',
       data: loadDroneWithMedication,
     });
+    logger.info('Drone loaded successfully', 'Drone Router');
   },
 );
 
@@ -107,18 +107,18 @@ dronesRouter.get(
     const droneId = req.params.droneId;
     const loadedDrones = await dronesService.getLoadedDroneMedications(droneId);
     if (loadedDrones.error) {
-      logger.error(loadedDrones.error, 'Drone Router');
-      return res.status(loadedDrones.status).json({
+      res.status(loadedDrones.status).json({
         status: 'error',
         data: loadedDrones.error,
       });
+      logger.error(loadedDrones.error, 'Drone Router');
     }
-    logger.info('Loaded drones fetched successfully', 'Drone Router');
-    return res.status(200).json({
+    res.status(200).json({
       status: 'success',
       message: 'Loaded drones fetched successfully',
       data: loadedDrones.data,
     });
+    logger.info('Loaded drones fetched successfully', 'Drone Router');
   },
 );
 
@@ -128,18 +128,18 @@ dronesRouter.get(
     logger.info('Fetching available drones', 'Drone Router');
     const availableDrones = await dronesService.availableDronesForLoading();
     if (availableDrones.error) {
-      logger.error(availableDrones.error, 'Drone Router');
-      return res.status(availableDrones.status).json({
+      res.status(availableDrones.status).json({
         status: 'error',
         data: availableDrones.error,
       });
+      logger.error(availableDrones.error, 'Drone Router');
     }
-    logger.info('Available drones fetched successfully', 'Drone Router');
-    return res.status(200).json({
+    res.status(200).json({
       status: 'success',
       message: 'Available drones fetched successfully',
       data: availableDrones,
     });
+    logger.info('Available drones fetched successfully', 'Drone Router');
   },
 );
 
@@ -150,18 +150,18 @@ dronesRouter.get(
     const droneId = req.params.droneId;
     const loadedDrones = await dronesService.droneBatterylevel(droneId);
     if (loadedDrones.error) {
-      logger.error(loadedDrones.error, 'Drone Router');
-      return res.status(loadedDrones.status).json({
+      res.status(loadedDrones.status).json({
         status: 'error',
         data: loadedDrones.error,
       });
+      logger.error(loadedDrones.error, 'Drone Router');
     }
-    logger.info('Drone battery level fetched successfully', 'Drone Router');
-    return res.status(200).json({
+    res.status(200).json({
       status: 'success',
       message: 'Loaded drones fetched successfully',
       data: loadedDrones,
     });
+    logger.info('Drone battery level fetched successfully', 'Drone Router');
   },
 
   dronesRouter.put(
@@ -173,30 +173,30 @@ dronesRouter.get(
 
       const validate = await validatePayload(updateStateDto);
       if (validate.status === 'error') {
-        logger.error(validate.errors.toString(), 'Drone Router');
-        return res.status(400).json({
+        res.status(400).json({
           status: 'error',
           message: 'Invalid payload',
           data: validate.errors,
         });
+        logger.error(validate.errors.toString(), 'Drone Router');
       }
       const updateState = await dronesService.setDroneState(
         droneId,
         updateStateDto,
       );
       if (updateState.error) {
-        logger.error(updateState.error, 'Drone Router');
-        return res.status(updateState.status).json({
+        res.status(updateState.status).json({
           status: 'error',
           data: updateState.error,
         });
+        logger.error(updateState.error, 'Drone Router');
       }
-      logger.info('Drones state updated successfully', 'Drone Router');
-      return res.status(200).json({
+      res.status(200).json({
         status: 'success',
         message: 'Drones state updated successfully',
         data: updateState.data,
       });
+      logger.info('Drones state updated successfully', 'Drone Router');
     },
   ),
 );
